@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { Col, Row } from 'react-bootstrap';
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import React, { createContext, useState } from 'react';
+import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap';
+import { Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import data from './data.js';
 import Detail from './pages/Detail.js';
-import axios from 'axios';
+
+export let Context1 = createContext(); 
 
 
 function App() {
 
   let [shoes, setShoes] = useState(data);
+  let [stocks, setStocks] = useState([10, 11, 12]);
 
   let navigete = useNavigate();
 
@@ -37,7 +37,11 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Main shoes={shoes} />} />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />     
+        <Route path="/detail/:id" element={
+          <Context1.Provider value={{shoes, stocks}}>
+            <Detail shoes={shoes} />
+          </Context1.Provider> 
+        }/>     
         <Route path="/about" element={<About />}>     
           <Route path="member" element={<h2>회사 구성원</h2>} />
           <Route path="location" element={<h2>위치</h2>} /> 

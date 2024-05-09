@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useContext, useState  } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import styled from 'styled-components';
+import {Context1} from './../App.js'
 
 let YelloBtn = styled.button`
   background: ${(props) => props.bg}; // props로 받은 값을 사용(재사용)
@@ -17,6 +17,9 @@ let Box = styled.div`
 `;
 
 const Detail = (props) => {
+
+  let {shoes, stocks} = useContext(Context1); // Context1을 사용하겠다고 선언
+
   let [alert, setAlert] = useState(true);
 
   const hideDiv = () => {
@@ -68,7 +71,7 @@ const Detail = (props) => {
       {alert === true ? (
         <div className="alert alert-warning">2초 이내 구매시 할일</div>
       ) : null}
-      {count}
+      {stocks}
       <Box>
         <YelloBtn bg="yellow" onClick={() => setCount(count + 1)}>
           버튼
@@ -122,6 +125,7 @@ const Detail = (props) => {
 const TabContent = ({tabIndex}) => {
 
   let[fade, setFade] = useState('');
+  let {stocks} = useContext(Context1);
 
   useEffect(() => {  
     // 시간차를 두고 실행
@@ -136,7 +140,7 @@ const TabContent = ({tabIndex}) => {
 
   return (
     <div className={`start ${fade}`}>
-      {[<div>0번째 내용</div>, <div>1번째 내용</div>, <div>2번째 내용</div>][tabIndex]}
+      {[<div>{stocks[0]}</div>, <div>{stocks[1]}</div>, <div>{stocks[2]}</div>][tabIndex]}
     </div>
   )
 }
