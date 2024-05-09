@@ -5,7 +5,8 @@ import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import data from './data.js';
-import Detail from './routes/Detail.js';
+import Detail from './pages/Detail.js';
+import axios from 'axios';
 
 
 function App() {
@@ -36,13 +37,25 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Main shoes={shoes} />} />
-        <Route path="/detail" element={<Detail />} />     
+        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />     
         <Route path="/about" element={<About />}>     
           <Route path="member" element={<h2>회사 구성원</h2>} />
           <Route path="location" element={<h2>위치</h2>} /> 
         </Route>
         <Route path="*" element={<h1>존재하지 않는 페이지입니다.</h1>} />   
       </Routes>      
+      {/* <Button onClick={()=> {
+        
+        axios.get('https://codingapple1.github.io/shop/data2.json')
+        .then((result) => {
+          console.log(result.data);
+          setShoes([...shoes, ...result.data]);   // 기존 데이터에 추가
+        })
+        .catch(() => {
+          console.log('실패');
+        })
+
+      }}>버튼</Button> */}
     </div>
   );
 }
@@ -80,7 +93,9 @@ const Card = (props) => {
   console.log(props.i);
   return (
     <Col>
-      <img src={process.env.PUBLIC_URL +"/img/shoes" + props.i + ".jpg"} alt="img" width="80%"/>
+      <img src={process.env.PUBLIC_URL +"/img/shoes" + props.i + ".jpg"} alt="img" width="80%" onClick={
+        () => { navigator('/detail/' + props.i)}
+      }/>
       <h4>{props.shoe.title}</h4>
       <p>{props.shoe.price}</p>
     </Col>
