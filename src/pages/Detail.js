@@ -4,6 +4,9 @@ import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import styled from 'styled-components';
+import { addCart } from '../store/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 let YelloBtn = styled.button`
   background: ${(props) => props.bg}; // props로 받은 값을 사용(재사용)
@@ -17,6 +20,14 @@ let Box = styled.div`
 `;
 
 const Detail = (props) => {
+
+  let carts = useSelector((state) => {
+    return state.cart; // 모든 state를 가져온다. 필요에 따라 원하는 부분만 가져와서 사용
+  });
+
+  let dispatch = useDispatch(); // dispatch 함수를 가져온다.
+
+
   let [alert, setAlert] = useState(true);
 
   const hideDiv = () => {
@@ -91,7 +102,9 @@ const Detail = (props) => {
             <h4>{shoe.title}</h4>
             <p>{shoe.content}</p>
             <p>{shoe.price}</p>
-            <button className="btn btn-danger">주문하기</button>
+            <button className="btn btn-danger" onClick={()=>{
+              dispatch(addCart(shoe));
+            }}>주문하기</button>
           </Col>
         </Row>
       </Box>

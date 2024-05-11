@@ -7,6 +7,7 @@ import './App.css';
 import data from './data.js';
 import Detail from './pages/Detail.js';
 import axios from 'axios';
+import Cart from './pages/Cart.js';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Nav className="me-auto">
               <Nav.Link onClick={() => {navigete('/')}}>Home</Nav.Link>
               <Nav.Link onClick={() => {navigete('/detail')}}>Detail</Nav.Link>
+              <Nav.Link onClick={() => {navigete('/cart')}}>Cart</Nav.Link>
               <Nav.Link onClick={() => {navigete('/about')}}>About</Nav.Link>
               <Nav.Link onClick={() => {navigete('/about/member')}}>Member</Nav.Link>
               <Nav.Link onClick={() => {navigete('/about/location')}}>Location</Nav.Link>
@@ -38,6 +40,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main shoes={shoes} />} />
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />     
+        <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />}>     
           <Route path="member" element={<h2>회사 구성원</h2>} />
           <Route path="location" element={<h2>위치</h2>} /> 
