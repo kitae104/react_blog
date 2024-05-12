@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { Col, Row } from 'react-bootstrap';
 import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
@@ -8,13 +8,32 @@ import data from './data.js';
 import Detail from './pages/Detail.js';
 import axios from 'axios';
 import Cart from './pages/Cart.js';
+import { useQuery } from 'react-query';
 
 
-function App() {
+function App() {  
 
   let [shoes, setShoes] = useState(data);
 
   let navigete = useNavigate();
+
+  useEffect(() => {
+    if(!localStorage.getItem('watched')) {                    // 로컬 스토리지에 watched가 없으면
+      localStorage.setItem('watched', JSON.stringify([]));    // watched를 생성
+    }
+  }, []); 
+
+  let result = useQuery('user', () => {
+    return axios.get('https://codingapple1.github.io/userdata.json')
+    .then((a) => {
+      return a.data;
+    })
+    .catch(() => {
+      console.log('실패');
+    });
+  });
+
+  console.log(result.data);
 
   return (
     <div className="App">           
@@ -31,6 +50,11 @@ function App() {
               <Nav.Link onClick={() => {navigete('/about')}}>About</Nav.Link>
               <Nav.Link onClick={() => {navigete('/about/member')}}>Member</Nav.Link>
               <Nav.Link onClick={() => {navigete('/about/location')}}>Location</Nav.Link>
+            </Nav>
+            <Nav className="ms-auto" style={{'color':'white'}}>
+              { result.isLoading && <div>로딩중...</div>}
+              { result.error && <div>로딩실패</div>}
+              { result.data && <div>{result.data.name}</div>}
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -45,6 +45,18 @@ const Detail = (props) => {
     return shoe.id == id;
   });
 
+  // 로컬 스토리지에 현재 id 저장(중복 제거)
+  useEffect(() => {    
+    let watchedData = localStorage.getItem('watched');
+    watchedData = JSON.parse(watchedData);
+    watchedData.push(shoe.id);  
+    watchedData = new Set(watchedData);  // 중복 제거  
+    watchedData = Array.from(watchedData);      // 배열로 변환
+    console.log("data", watchedData);
+    localStorage.setItem('watched', JSON.stringify(watchedData));    
+  }, []);
+
+
   useEffect(() => {
     let a = setTimeout(() => {
       setAlert(false);
@@ -72,6 +84,7 @@ const Detail = (props) => {
       setFade('');
     }
   }, []);
+
 
 
   return (
