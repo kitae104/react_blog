@@ -14,6 +14,7 @@ import { useQuery } from 'react-query';
 function App() {  
 
   let [shoes, setShoes] = useState(data);
+  let [stocks, setStocks] = useState([10, 11, 12]);
 
   let navigete = useNavigate();
 
@@ -63,8 +64,11 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Main shoes={shoes} />} />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />     
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/detail/:id" element={
+          <Context1.Provider value={{shoes, stocks}}>
+            <Detail shoes={shoes} />
+          </Context1.Provider> 
+        }/>     
         <Route path="/about" element={<About />}>     
           <Route path="member" element={<h2>회사 구성원</h2>} />
           <Route path="location" element={<h2>위치</h2>} /> 
